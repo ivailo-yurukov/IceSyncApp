@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IceSyncApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250826134030_InitialCreate")]
+    [Migration("20250828080649_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,14 +24,11 @@ namespace IceSyncApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IceSyncApp.Models.Workflow", b =>
+            modelBuilder.Entity("IceSyncApp.Components.Models.Workflow", b =>
                 {
-                    b.Property<int>("WorkflowId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("WorkflowId")
                         .HasMaxLength(100)
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkflowId"));
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

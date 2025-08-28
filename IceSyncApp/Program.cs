@@ -17,8 +17,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.Configure<UniversalLoaderOptions>(
     builder.Configuration.GetSection("UniversalLoader"));
 
-builder.Services.AddHttpClient<IUniversalLoaderClient, UniversalLoaderClient>();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IUniversalLoaderService, UniversalLoaderService>();
 builder.Services.AddScoped<IWorkflowService, WorkflowService>();
+builder.Services.AddHostedService<WorkflowSyncHostedService>();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();

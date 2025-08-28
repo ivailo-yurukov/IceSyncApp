@@ -1,6 +1,5 @@
 ﻿using IceSyncApp.Components.Interfaces;
 using IceSyncApp.Components.Models;
-using IceSyncApp.Models;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
@@ -8,16 +7,16 @@ using System.Text.Json;
 
 namespace IceSyncApp.Components.Services
 {
-    public class UniversalLoaderClient : IUniversalLoaderClient
+    public class UniversalLoaderService : IUniversalLoaderService
     {
         private readonly HttpClient _httpClient;
         private readonly UniversalLoaderOptions _options;
-        private readonly ILogger<UniversalLoaderClient> _logger;
+        private readonly ILogger<UniversalLoaderService> _logger;
 
         private string? _token;
         private DateTime _tokenExpiry;
 
-        public UniversalLoaderClient(HttpClient httpClient, IOptions<UniversalLoaderOptions> options, ILogger<UniversalLoaderClient> logger)
+        public UniversalLoaderService(HttpClient httpClient, IOptions<UniversalLoaderOptions> options, ILogger<UniversalLoaderService> logger)
         {
             _httpClient = httpClient;
             _options = options.Value;
@@ -75,7 +74,15 @@ namespace IceSyncApp.Components.Services
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            var workflows = JsonSerializer.Deserialize<List<Workflow>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var workflowsDto = JsonSerializer.Deserialize<List<WorkflowDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            var workflows = workflowsDto.Select(dto => new Workflow
+            {
+                WorkflowId = dto.Id.ToString(),
+                WorkflowName = dto.Name,
+                IsActive = dto.IsActive,
+                MultiExecBehavior = dto.MultiExecBehavior
+            }).ToList();
 
             return workflows ?? new List<Workflow>();
         }

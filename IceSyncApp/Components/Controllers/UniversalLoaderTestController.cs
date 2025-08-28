@@ -8,9 +8,9 @@ namespace IceSyncApp.Components.Controllers
     [Route("api/[controller]")]
     public class UniversalLoaderTestController : ControllerBase
     {
-        private readonly IUniversalLoaderClient _client;
+        private readonly IUniversalLoaderService _client;
 
-        public UniversalLoaderTestController(IUniversalLoaderClient client)
+        public UniversalLoaderTestController(IUniversalLoaderService client)
         {
             _client = client;
         }

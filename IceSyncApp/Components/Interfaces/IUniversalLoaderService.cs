@@ -1,8 +1,8 @@
-﻿using IceSyncApp.Models;
+﻿using IceSyncApp.Components.Models;
 
 namespace IceSyncApp.Components.Interfaces
 {
-    public interface IUniversalLoaderClient
+    public interface IUniversalLoaderService
     {
         Task<string> GetTokenAsync();
         Task<List<Workflow>> GetWorkflowsAsync();

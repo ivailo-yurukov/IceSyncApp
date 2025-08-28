@@ -1,4 +1,4 @@
-﻿using IceSyncApp.Models;
+﻿using IceSyncApp.Components.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IceSyncApp.Components.Data

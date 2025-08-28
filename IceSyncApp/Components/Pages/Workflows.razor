@@ -1,0 +1,101 @@
+﻿@page "/workflows"
+
+@using IceSyncApp.Components.Models
+@inject IceSyncApp.Components.Interfaces.IWorkflowService WorkflowService
+@rendermode InteractiveServer
+
+<h3>Workflows</h3>
+
+@if (workflows == null)
+{
+	<p><em>Loading...</em></p>
+}
+else if (workflows.Count == 0)
+{
+	<p>No workflows available.</p>
+}
+else
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Workflow Id</th>
+				<th>Workflow Name</th>
+				<th>Is Active</th>
+				<th>Multi Exec Behavior</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var w in workflows)
+			{
+				<tr>
+					<td>@w.WorkflowId</td>
+					<td>@w.WorkflowName</td>
+					<td>@(w.IsActive ? "Yes" : "No")</td>
+					<td>@w.MultiExecBehavior</td>
+					<td>
+						<button class="btn btn-primary btn-sm"
+								@onclick="() => RunWorkflow(w.WorkflowId)">
+							Run
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@if (!string.IsNullOrEmpty(message))
+{
+	<div class="alert @alertClass mt-2">@message</div>
+}
+
+@code {
+	private List<Workflow> workflows;
+	private string message;
+	private string alertClass;
+	private CancellationTokenSource? _alertCts;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		workflows = await WorkflowService.GetWorkflowsAsync();
+	}
+
+	private async Task RunWorkflow(string workflowId)
+	{
+		var success = await WorkflowService.RunWorkflowAsync(workflowId);
+		if (success)
+		{
+			message = $"Workflow {workflowId} started successfully.";
+			alertClass = "alert-success";
+		}
+		else
+		{
+			message = $"Failed to start workflow {workflowId}.";
+			alertClass = "alert-danger";
+		}
+		StateHasChanged();
+
+		_alertCts?.Cancel();
+		_alertCts = new CancellationTokenSource();
+
+		_ = Task.Run(async () =>
+		   {
+			   try
+			   {
+				   await Task.Delay(3000, _alertCts.Token);
+				   await InvokeAsync(() =>
+				   {
+					   message = string.Empty;
+					   StateHasChanged();
+				   });
+			   }
+			   catch (TaskCanceledException)
+			   {
+				   
+			   }
+		   });
+	}
+}

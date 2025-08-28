@@ -1,4 +1,4 @@
-﻿using IceSyncApp.Models;
+﻿using IceSyncApp.Components.Models;
 
 namespace IceSyncApp.Components.Interfaces
 {

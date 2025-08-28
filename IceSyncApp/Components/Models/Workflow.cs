@@ -1,13 +1,11 @@
 using System.Text.Json.Serialization;
 
-namespace IceSyncApp.Models
+namespace IceSyncApp.Components.Models
 {
     public class Workflow
     {
-        [JsonPropertyName("id")]
-        public int WorkflowId { get; set; } 
+        public string? WorkflowId { get; set; } 
 
-        [JsonPropertyName("name")]
         public string? WorkflowName { get; set; }
 
         public bool IsActive { get; set; }

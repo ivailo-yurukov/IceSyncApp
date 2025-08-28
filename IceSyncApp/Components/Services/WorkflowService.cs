@@ -1,6 +1,6 @@
 ﻿using IceSyncApp.Components.Data;
 using IceSyncApp.Components.Interfaces;
-using IceSyncApp.Models;
+using IceSyncApp.Components.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IceSyncApp.Components.Services
@@ -8,27 +8,23 @@ namespace IceSyncApp.Components.Services
     public class WorkflowService : IWorkflowService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly IUniversalLoaderClient _apiClient;
+        private readonly IUniversalLoaderService _apiClient;
         private readonly ILogger<WorkflowService> _logger;
 
-        public WorkflowService(ApplicationDbContext dbContext, IUniversalLoaderClient apiClient, ILogger<WorkflowService> logger)
+        public WorkflowService(ApplicationDbContext dbContext, IUniversalLoaderService apiClient, ILogger<WorkflowService> logger)
         {
             _dbContext = dbContext;
             _apiClient = apiClient;
             _logger = logger;
         }
 
-        /// <summary>
-        /// Returns workflows from the database (for UI display).
-        /// </summary>
+        //Returns workflows from the database (for UI display).
         public async Task<List<Workflow>> GetWorkflowsAsync()
         {
             return await _dbContext.Workflows.AsNoTracking().ToListAsync();
         }
 
-        /// <summary>
-        /// Runs a workflow using the Universal Loader API.
-        /// </summary>
+        //Runs a workflow using the Universal Loader API.
         public async Task<bool> RunWorkflowAsync(string workflowId)
         {
             try
@@ -42,9 +38,7 @@ namespace IceSyncApp.Components.Services
             }
         }
 
-        /// <summary>
-        /// Synchronizes workflows between API and local database.
-        /// </summary>
+        //Synchronizes workflows between API and local database.
         public async Task SyncWorkflowsAsync()
         {
             try

@@ -21,14 +21,11 @@ namespace IceSyncApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IceSyncApp.Models.Workflow", b =>
+            modelBuilder.Entity("IceSyncApp.Components.Models.Workflow", b =>
                 {
-                    b.Property<int>("WorkflowId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("WorkflowId")
                         .HasMaxLength(100)
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkflowId"));
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
