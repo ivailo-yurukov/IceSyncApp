@@ -6,7 +6,7 @@ namespace IceSyncApp.Components.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<WorkflowSyncHostedService> _logger;
-        private readonly TimeSpan _interval = TimeSpan.FromMinutes(1);
+        private readonly TimeSpan _interval = TimeSpan.FromMinutes(30);
 
         public WorkflowSyncHostedService(IServiceProvider serviceProvider, ILogger<WorkflowSyncHostedService> logger)
         {
