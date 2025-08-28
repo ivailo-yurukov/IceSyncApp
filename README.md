@@ -1,1 +1,1 @@
-Please adjust the connection string for the DB and run the app.
+Please adjust the connection string for the local DB and run the app.
